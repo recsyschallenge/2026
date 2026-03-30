@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="RecSys Challenge 2025">
+    <meta name="keywords" content="Recommender Systems, RecSys Challenge">
+    <meta name="author" content="RecSysChallenge 2025 Organizers">
+    <title>RecSys Challenge 2025</title>
+    <!-- CSS -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/ekko-lightbox.min.css" rel="stylesheet">
+    <link href="./css/main.css" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+    <link rel="manifest" href="images/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+</head>
+<body>
+<div id="top" class="container">
+    <div class="header clearfix" style="padding-bottom:5px;">
+            <span style="float:left; padding-right: 15px;">
+               <!-- <img src="./images/logo.png" alt="logo" width="50"> </span> <span style="float:right; padding-right: 15px;"> -->
+                <!--a style="text-decoration: none;" href="https://twitter.com/acmrecsys" title="Twitter"> <img
+                   src="./images/ico-twitter.svg" alt="" width="24">
+                </a-->
+            </span>
+        <h3><a href="http://recsyschallenge.com/2026" style="text-decoration:none;">
+            RecSys Challenge 2026</a>
+        </h3>
+        <div style="margin-top:20px;font-family: Arial,sans-serif">
+            <ul class="nav nav-pills navbar-nav navbar-left">
+                <li role="presentation"><a href="#about">About</a></li>
+                <li role="presentation"><a href="#dates">Timeline</a></li>
+                <li role="presentation"><a href="#participation">Participation</a></li>
+<!--                <li role="presentation"><a href="#guidelines">Submission</a></li>-->
+<!--                <li role="presentation"><a href="#dataset">Dataset</a></li>-->
+                <!-- <li role="presentation"><a href="#program">Program</a></li>
+                <li role="presentation"><a href="#organizers">Organization</a></li> -->
+                <!-- <li role="presentation"><a href="./assets/CfS_2026.pdf" target="\_blank">Call 2026</a></li> -->
+            </ul>
+        </div>
+    </div>
+    <!-- ABOUT -->
+    <div id="about" class="lead">
+        <h1>About<sup><a class="dropup" style="font-size:10px;" href="#top"><span class="caret">
+         </span>
+            top</a></sup>
+        </h1>
+    </div>
+    <p align="justify">
+        The RecSys 2026 Challenge will be organized by Seungheon Doh (Korea Advanced Institute of Science and Technology, South Korea),
+        Sergio Oramas (Pandora/SiriusXM), Bruno Sguerra (Deezer Research), Abhinav Bohra (Amazon), 
+        Claudio Pomo (Politecnico di Bari, Italy), and Francesco Barile (Maastricht University, Netheralnds).
+    </p>
+    <p align="justify">
+        The RecSys Challenge 2026: Music-CRS focuses on the evolving landscape of music discovery, where
+        static recommendation lists are being replaced by dynamic, conversational interactions. 
+        As users increasingly interact with AI through natural language, there is a critical need for 
+        systems that can seamlessly integrate Natural Language Understanding (NLU) with high-precision 
+        Recommender Systems (RecSys). This challenge aims to push the boundaries of how AI understands 
+        nuanced user preferences, explores musical tastes through dialogue, and provides contextually 
+        relevant track recommendations.
+    </p>
+    <p align="justify">
+        By utilizing the TalkPlayData-Challenge dataset—a large-scale synthetic conversation resource 
+        generated through an advanced agentic pipeline—we invite the global research community to tackle 
+        the complexities of multi-turn preference elicitation. As a research community-driven initiative, 
+        all information within the dataset has been strictly anonymized to ensure privacy while providing 
+        high-fidelity interactions. This challenge serves as a bridge between the NLP and RecSys 
+        communities, fostering next-generation innovation in interactive and personalized music information 
+        retrieval.
+    </p>
+
+
+    <br>
+    <h2>Challenge Task<sup><a class="dropup" style="font-size:10px;" href="#top"><span class="caret"></span>
+        top</a></sup>
+    </h2>
+    <p align="justify">
+        The primary goal is to develop a Conversational Music Recommendation system that acts as an intelligent 
+        agent capable of navigating user tastes through dialogue.
+    </p>
+    <p align="justify">
+        <strong>Main Task:</strong> Conversational Music Recommendation The system must understand user music preferences 
+        from previous conversation turns and user profiles to recommend relevant tracks from a catalog 
+        while generating natural, helpful responses.
+        <ul>
+            <li>
+                <strong>Recommendation (Ranked Retrieval).</strong>
+                Given the dialogue history and user context, the system must output a ranked list of the 
+                top 20 music tracks from the provided catalog. This requires capturing both explicit 
+                requests and latent preferences (e.g., mood, genre-specific nuances) within the conversation.
+            </li>
+            <li>
+                <strong>Response Generation.</strong>
+                The system must generate a natural language response to accompany the 
+                recommendations. This response should justify the picks based on the user's profile or 
+                previous turns and maintain a coherent conversational flow.
+            </li>
+        </ul>
+    </p>
+    <br>
+    <h2>Evaluation<sup><a class="dropup" style="font-size:10px;" href="#top"><span class="caret"></span>
+        top</a></sup>
+    </h2>
+    <p align="justify">
+       The challenge employs a multi-dimensional evaluation framework to assess both what you recommend and 
+       how you recommend it.
+    </p>
+    <p align="justify">
+        Blind A, B Leaderboard Metric
+        <ul>
+            <li>
+                Recommendation (0.50): Measured by nDCG@20. This evaluates the accuracy of the recommended items and serves as the primary anchor for the system's performance.
+            </li>
+            <li>
+                Catalog Diversity (0.10): Measures whether the 20 recommended items are varied and non-redundant, encouraging exploration across the music catalog.
+            </li>
+            <li>
+                Lexical Diversity (0.10): Measured using Distinct-2, defined as the proportion of unique bigrams in the generated responses, capturing the diversity of the language used.
+            </li>
+            <li>
+                LLM-as-a-Judge (0.30): The generated textual responses are evaluated using a large language model acting as an automatic judge. The judge scores two complementary dimensions:
+                <ul>
+                    <li>
+                        Personalization (0.15): Measures whether the response is tailored to the user’s profile and dialogue context.
+                    </li>
+                    <li>
+                        Explanation Quality (0.15): Measures whether the response clearly and specifically explains why the recommended items fit the user’s request.
+                    </li>
+                </ul>
+                The judge is explicitly instructed to evaluate these dimensions independently and to focus solely on the quality of the generated text, without considering recommendation accuracy, which is already captured by nDCG@20.
+            </li>
+        </ul>
+    </p>
+    <br>
+    <h2 id="dataset">DataSet<sup><a class="dropup" style="font-size:10px;" href="#top"><span class="caret"></span>
+        top</a></sup>
+    </h2>
+    <p align="justify">
+        The challenge utilizes TalkPlayData-Challenge, a synthetic conversational music recommendation dataset featuring multi-turn dialogues and music listening history. The dataset is split into four subsets: 
+        Train, Development, Blind A, and Blind B.
+    </p>
+    <p align="justify">
+        The leaderboard evaluation proceeds in stages across these subsets:
+        <ul>
+            <li>
+                Development Phase: Evaluates the RecSys Task (SubTask A) only.
+            </li>
+            <li>
+                Blind A & Blind B Phases: Evaluate both the RecSys Task (SubTask A) and Response Generation (SubTask B).
+            </li>
+        </ul>
+    </p>
+    <p align="justify">
+        <strong>Dataset Components</strong>
+        <ul>
+            <li>
+                <strong>Conversation Dataset</strong>: Includes multi-turn dialogues (avg. 8 turns) with fields for session_id, user_id, turn_number, and the utterance text.
+            </li>
+            <li>
+                    <strong>Track Metadata</strong>: Contains information for over 1 million tracks, including track_id, track name, artist name, album name, tags (genre/mood), and release date.
+            </li>
+            <li>
+                <strong>User Profiles</strong>: Provides demographic and historical context, including user_id, age, gender, country, and a list of track_ids representing their listening history.
+            </li>
+            <li>
+                <strong>Pre-extracted Embeddings</strong>: To ensure focus on model architecture, we provide pre-computed multimodal track embeddings (audio/content) and user embeddings (collaborative filtering).
+            </li>
+        </ul>
+    </p>
+
+    <h3>Download</h3>
+    <p align="justify">
+        <strong>Train / Development Dataset</strong>
+        <ul>
+            <li>
+                <a href="https://huggingface.co/datasets/talkpl-ai/TalkPlayData-Challenge-Dataset">
+                    Conversation Dataset
+                </a>
+            </li>
+            <li>
+                <a href="https://huggingface.co/datasets/talkpl-ai/TalkPlayData-Challenge-User-Metadata">
+                    User Metadata
+                </a>
+            </li>
+            <li>
+                <a href="https://huggingface.co/datasets/talkpl-ai/TalkPlayData-Challenge-Track-Metadata">
+                    Track Metadata
+                </a>
+            </li>
+            <li>
+                <a href="https://huggingface.co/datasets/talkpl-ai/TalkPlayData-Challenge-User-Embeddings">
+                    User Embedding
+                </a>
+            </li>
+            <li>
+                <a href="https://huggingface.co/datasets/talkpl-ai/TalkPlayData-Challenge-Track-Embeddings">
+                    Track Embedding
+                </a>
+            </li>
+        </ul>
+    </p>
+
+    <p align="justify">
+        <strong>Blind Dataset A</strong>
+        <ul>
+            <li>
+                <a href="https://huggingface.co/datasets/talkpl-ai/TalkPlayData-Challenge-Blind-A">
+                    Blind Dataset A
+                </a>
+            </li>
+            
+        </ul>
+    </p>
+
+    <p align="justify">
+        <strong>Blind Dataset B (To be released) </strong>
+        
+    </p>
+
+    <p><em>For further details, please refer to the  <a href="LINK">
+        dedicated website</a>.</em>
+    </p>
+    <br>
+    <h2>Prize<sup><a class="dropup" style="font-size:10px;" href="#top"><span class="caret"></span>
+        top</a></sup>
+    </h2>
+    <p align="justify">
+    <ul>
+        <li>
+            First team from the participants - $1000
+        </li>
+        <li>
+            First academic team - $1000
+        </li>
+    </ul>
+    </p>
+    <br>
+    <br>
+
+    <div id="participation" class="lead">
+        <h1>
+            Participation
+            <sup><a class="dropup" style="font-size:10px;" href="#top"><span class="caret"></span>top</a>
+            </sup>
+        </h1>
+        <div class="wrapper">
+            <strong>TBA</strong><br>
+            <!-- <strong>Registration &amp; Data Access is open now!</strong><br>
+            <a href="" target="_blank">
+                <button type="button" class="btn btn-lg  btn-primary button">Registration &amp; Data Access</button>
+            </a> -->
+        </div>
+    </div>
+
+
+    <br>
+    <br>
+    <div id="dates">
+        <h1>Timeline <sup><a class="dropup" style="font-size:10px;" href="#top"><span class="caret"></span>
+            top</a></sup>
+        </h1>
+        <table class="table table-striped lead">
+            <thead>
+            <tr>
+                <th>When?</th>
+                <th>What?</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>10 April, 2026</td>
+                <td>
+                    <strong>Start RecSys Challenge</strong>
+                    <p>Release dataset</p>
+                </td>
+            </tr>
+            <tr>
+                <td>20 April, 2026</td>
+                <td>
+                    <strong>Submission System Open</strong>
+                    <p>Leaderboard live</p>
+                </td>
+            </tr>
+            <tr>
+                <td>30 June, 2026</td>
+                <td>
+                    <strong>End RecSys Challenge</strong>
+                </td>
+            </tr>
+            <tr>
+                <td>6 July, 2026 </td>
+                <td>
+                    <strong>Final Leaderboard &amp; Winners</strong>
+                    <p>EasyChair open for submissions</p>
+                </td>
+            </tr>
+            <tr>
+                <td>9 July, 2025</td>
+                <td>
+                    <strong>Code Upload</strong>
+                    <p>Upload code of the final predictions</p>
+                </td>
+            </tr>
+            <tr>
+                <td>20 July, 2026</td>
+                <td>
+                    <strong>Paper Submission Due</strong>
+                </td>
+            </tr>
+            <tr>
+                <td>3 August, 2026</td>
+                <td>
+                    <strong>Paper Acceptance Notifications</strong>
+                </td>
+            </tr>
+            <tr>
+                <td>10 August, 2025</td>
+                <td>
+                    <strong>Camera-Ready Papers</strong>
+                </td>
+            </tr>
+            <tr>
+                <td>September 2025</td>
+                <td>
+                    <strong>RecSys Challenge Workshop</strong>
+                    <p>@ <a href="https://recsys.acm.org/recsys26/">ACM RecSys 2026</a></p>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <!-- <div id="guidelines" class="lead">
+        <h1>
+            Paper Submission Guidelines<sup><a class="dropup" style="font-size:10px;" href="#top"><span
+                class="caret"></span> top</a></sup>
+        </h1>
+        <p>
+            <font color="green"><strong>Submission website:</strong></font>
+            <a href="https://easychair.org/my/conference?conf=recsys2025" target="_blank">EasyChair</a>
+        </p>
+        <ul>
+            <li>All participants of the challenge are invited to submit if they consider their submission particularly
+                effective, novel, otherwise interesting, or exploiting identified particularities of the data.
+            </li>
+            <li>
+                <font color="green"><strong>Note:</strong></font> paper submission is mandatory if you want to be
+                eligible for a prize. Accepted papers are given a presentation slot at the
+                workshop. At least one author of each accepted paper must attend the workshop and present their work.
+                Please note that a badly written paper or absence of presence at workshop, may prevent you from being
+                eligible for the prize. Please contact the workshop organization if none of the authors will be able to
+                attend the workshop.
+            </li>
+            <li>
+                <font color="green"><strong>Page limit:</strong></font> 4 pages + 1 page for references (<a
+                    href="https://www.acm.org/publications/proceedings-template">ACM SIG Format</a>) in double column
+                format.
+                Instructions for Word and LaTeX authors are given below:
+                <ul>
+                    <li><strong>Microsoft Word</strong>: Write your paper using
+                        <a href="https://www.acm.org/binaries/content/assets/publications/word_style/interim-template-style/interim-layout.docx" target="_blank" rel="noopener">ACM’s interim template</a>.
+                        Follow the embedded instructions to apply the paragraph styles to your various text elements.
+                        The text is in double-column format and no additional formatting is required at this stage.
+                    </li>
+                    <li><strong>LaTeX</strong>: Please use the latest version of the <a href="https://portalparts.acm.org/hippo/latex_templates/acmart-primary.zip" target="_blank" rel="noopener">Primary Article Template</a>
+                        – LaTeX to create your submission.Start the document with the
+                        <span style="font-family: monospace;">\documentclass[sigconf]{acmart}</span>
+                        command to generate the output in a double-column format. Please see the
+                        <a href="https://portalparts.acm.org/hippo/latex_templates/acmart.pdf" target="_blank" rel="noopener">LaTeX documentation</a>
+                        and <a href="https://www.acm.org/publications/taps/latex-best-practices" target="_blank" rel="noopener">ACM’s LaTeX best practices guide</a>
+                        for further instructions, <strong>ignoring the single-column instructions</strong>.
+                        Do not use the “manuscript” option, otherwise the document will not be compiled in double-column,
+                        as required. Check the sample-sigconf.tex file included in the template package for a formatting example.
+                        To ensure 100% <strong>compatibility</strong> with The ACM Publishing System (TAPS), please <strong>restrict the use of packages</strong>
+                        to the <a href="https://www.acm.org/publications/taps/whitelist-of-latex-packages" target="_blank" rel="noopener">whitelist of approved LaTeX packages</a>.</li>
+                </ul>
+            </li>
+            <li>Anonymization of submissions is not required; please include your team name in abstract and text, as
+                well as a link to your code repository, the achieved score, and a reference to the RecSys Challenge
+                Website (<a href="http://www.recsyschallenge.com/2025/">http://www.recsyschallenge.com/2025/</a>). Note:
+                This will be replaced with a reference to an overview paper in the RecSys proceedings for the
+                camera-ready version.
+            </li>
+            <li>
+                <font color="green"><strong>Submission website:</strong></font> <a href="https://easychair.org/my/conference?conf=recsys2025" target="_blank">EasyChair</a>
+            </li>
+            <li>The topics of interest include, but are not limited to:
+                <ul>
+                    <li>Development of novel algorithms for creating Universal Behavioral Profiles.</li>
+                    <li>Techniques for ensuring the generalization of user representations across both open and hidden predictive tasks.</li>
+                    <li>In-depth analysis and creative feature engineering of the provided event data (product interactions, page visits, searches, etc.).</li>
+                    <li>Methods for predicting user churn, as well as product and category propensity, based on user representations.</li>
+                    <li>Scalable and efficient approaches for generating user profiles from large-scale behavioral data.</li>
+                    <li>Innovative approaches to user representation that can be applied to a variety of downstream tasks.</li>
+                </ul>
+            </li>
+
+            <li>The submitted papers will be evaluated based on novelty, clarity, and presented empirical results.</li>
+            <li>Each paper will be reviewed by at least two PC members.</li>
+            <li>Our proceedings will be published in the ACM Digital Library within its International Conference Proceedings Series.</li>
+            <li>Accepted papers must be presented in the RecSys Challenge Workshop.</li>
+            <li>
+                <p><font color="green"><strong>Important Note on Publication Fees</strong></font></p>
+                <p>
+                    Please be aware that this workshop follows the new ACM International Conference Proceedings Series (ICPS) model.
+                    Under this model, <strong>the financial responsibility for the Article Processing Charge (APC) lies with the authors of accepted papers.</strong>
+                </p>
+                <p>
+                    However, the RecSys conference organizers are committed to supporting the community. Authors who face genuine difficulties in covering the APC will have the opportunity to submit a motivated request for financial support. These requests will be evaluated by the main conference organizers on a case-by-case basis. Please note that support is not guaranteed.
+                </p>
+                <p>
+                    For more details on the ACM ICPS model, please refer to the
+                    <a href="https://www.acm.org/publications/icps/faq" target="_blank" rel="noopener noreferrer">ICPS FAQ</a>
+                    and
+                    <a href="https://www.acm.org/publications/icps/organizer-guidance" target="_blank" rel="noopener noreferrer">organizer guidance</a>.
+                </p>
+            </li>
+        </ul>
+    </div> -->
+    <br>
+    <!-- <div class="lead" id="program">
+        <h1>Workshop Program and Accepted Papers<sup><a class="dropup" style="font-size:10px;" href="#top"><span class="caret"></span>
+            top</a></sup>
+        </h1>
+        <em>The RecSys Challenge Workshop will take place on September 22nd, 2025<br> <strong> All times are CET</strong></em>
+        <table class="table table-striped lead">
+            <tbody>
+            <tr>
+                <td>8:30-8:40</td>
+                <td><strong>Opening Remarks</strong></td>
+            </tr>
+            <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+            <tr style="color:gray;">
+                <td>8:40-9:40</td>
+                <td><strong>📈 Session 1: Sequential Dynamics and Temporal Modeling</strong></td>
+            </tr>
+            <tr>
+                <td>8:40-8:55</td>
+                <td><strong>Toward Universal User Representations: Contrastive Learning with Transformers and Embedding Ensembles (🥇)</strong> --- Yuki Sawada, Rintaro Hasegawa, Yuhi Nagatsuma, Shugo Takei, Kazuhito Yonekawa, and Hiromu Auchi</td>
+            </tr>
+            <tr>
+                <td>8:55-9:10</td>
+                <td><strong>Encode Me If You Can: Learning Universal User Representations via Event Sequence Autoencoding (🥈)</strong> --- Anton Klenitskiy, Artem Fatkulin, Daria Denisova, Anton Pembek, and Alexey Vasilev</td>
+            </tr>
+            <tr>
+                <td>9:10-9:25</td>
+                <td><strong>From Sequences to Profiles: Generating Universal Behavioral Profiles exploiting Recurrent Neural Networks (🥇🏛️)</strong> --- Simone Colecchia, Mauro Orazio Drago, Jihad Founoun, Paolo Gennaro, Ernesto Natuzzi, Luca Pagano, Sajjad Shaffaf, Giuseppe Vitello, Andrea Pisani, and Maurizio Ferrari Dacrema</td>
+            </tr>
+            <tr>
+                <td>9:25-9:40</td>
+                <td><strong>State-Space Sequential Encoders for Universal Behavioral Profiles</strong> --- Keita Nakano, Shusuke Irikuchi, and Akira Komori</td>
+            </tr>
+            <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+            <tr style="color:gray;">
+                <td>9:40-10:40</td>
+                <td><strong>🧩 Session 2: Hybrid Systems and Feature Fusion</strong></td>
+            </tr>
+            <tr>
+                <td>9:40-9:55</td>
+                <td><strong>Blending Sequential Embeddings, Graphs, and Engineered Features</strong> --- Sergei Makeev, Alexandr Andreev, Vladimir Baikalov, Vladislav Tytskiy, Aleksei Krasilnikov, and Kirill Khrylchenko</td>
+            </tr>
+            <tr>
+                <td>9:55-10:10</td>
+                <td><strong>Universal Behavioral Profiles using Graph Neural Networks (🥉)</strong> --- Shoji Takimura, Masato Hashimoto, Wataru Akashi, Ryo Koyama, Ryoki Wakamoto, and Kenichiro Miyaki</td>
+            </tr>
+            <tr>
+                <td>10:10-10:25</td>
+                <td><strong>Heterogeneous Feature Integration for Behavioral Profiles (🥈🏛️)</strong> --- Kaito Terasaki, Taketo Yoneda, Kiyotakashi Takagawa, Hayato Maruyama, Yongzhi Jin, Hibiki Ayabe, Kei Harada, and Kazushi Okamoto</td>
+            </tr>
+            <tr>
+                <td>10:25-10:40</td>
+                <td><strong>Beyond Aggregation: A Feature-Fused Universal Behavioral Transformer (🥉🏛️)</strong> --- Yichen Liu, Minhao Wang, Ruizhi Zhang, Wen Wu, and Wei Zhang</td>
+            </tr>
+            <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+            <tr style="background-color:#d1e7dd;">
+                <td>10:40-11:00</td>
+                <td>Coffee Break</td>
+            </tr>
+            <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+            <tr style="color:gray;">
+                <td>11:00-12:00</td>
+                <td><strong>💡 Session 3: Novel Representations and Relational Structures</strong></td>
+            </tr>
+            <tr>
+                <td>11:00-11:15</td>
+                <td><strong>One Paradigm for All: Relational Deep Learning for Representation of Universal Behavioral Profiles</strong> --- Marco Valentini, Antonio Ferrara, Chiara Mallamaci, Rossana Zampieri, Ilaria Buonfrate, Daniele Malitesta, Fedelucio Narducci, and Tommaso Di Noia</td>
+            </tr>
+            <tr>
+                <td>11:15-11:30</td>
+                <td><strong>Triple-Feature Transformer with Sparsity Regularization</strong> --- Xun Zhou and Haichuan Song</td>
+            </tr>
+            <tr>
+                <td>11:30-11:45</td>
+                <td><strong>BEHAV-E! You are Not Just a Number to Us, but an R2048 Embedding</strong> --- Juan Manuel Rodriguez and Antonela Tommasel</td>
+            </tr>
+            <tr>
+                <td>11:45-12:00</td>
+                <td><strong>Beyond Model Size: Narrative Driven Universal Modeling</strong> --- Alexandre Rousseau and Yann Veyssiere</td>
+            </tr>
+            <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+            <tr style="background-color:#d1e7dd;">
+                <td>12:00-13:00</td>
+                <td>Lunch</td>
+            </tr>
+            <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+            <tr>
+                <td>14:00-15:00</td>
+                <td><strong>Keynote: Kim Falk</strong> <em>In data we trust?</em></td>
+            </tr>
+            <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+            <tr>
+                <td>15:00-15:30</td>
+                <td><strong>🏆 Awards Ceremony</strong></td>
+            </tr>
+            </tbody>
+        </table>
+    </div> -->
+    <br>
+
+    <!-- <div id="keynote" class="lead">
+        <h1>Keynote Speaker
+            <sup><a class="dropup" style="font-size:10px;" href="#top"><span class="caret"></span> top</a></sup>
+        </h1>
+
+        <div class="row" style="margin-top:10px;">
+            <div class="col-sm-4">
+                <img src="./images/keynote-kim-falk.png"
+                     alt="Keynote Speaker: Kim Falk"
+                     class="img-responsive img-thumbnail"
+                     style="width:100%; max-width:240px;">
+            </div>
+            <div class="col-sm-8">
+                <h3 style="margin-top:0;">Kim Falk</h3>
+
+                <h4 style="margin:6px 0 8px 0;"><em>In data we trust?</em></h4>
+
+                <p style="margin:0 0 12px 0;">
+                    <strong>Abstract:</strong> Recommender engineers are essential in creating personalized user experiences,
+                    harnessing both technical expertise and engineering skills. Understanding user behavior through data
+                    is crucial for building better recommendations, but equally important is a solid grasp of business
+                    needs and problem contexts. This keynote examines the interplay between models and data, the challenges
+                    of bias, and the stochastic elements that influence system behavior. We’ll also explore where trust
+                    lies within recommendation systems and how to balance theoretical approaches with engineering realities.
+                    By addressing these challenges and trade-offs, this talk provides insights into building scalable,
+                    impactful, and trustworthy recommender systems.
+                </p>
+                <hr>
+
+                <p style="margin-top:8px; text-align: justify;">
+                    Kim Falk is a Principal Recommender Engineer at DPG Media, where he works on recommender systems in
+                    news and VOD platforms. Before, he was a staff recommender engineer at Shopify, where he was the
+                    technical lead of the Product Recommendations team. Kim has experience in machine learning but
+                    specializes in Recommender systems. He has previously worked on recommenders for customers like British
+                    Telecom and RTL+, added user segmentation in Sitecore CMS and worked on Danish NLP. Kim is also the
+                    author of Practical Recommender Systems.
+                </p>
+            </div>
+        </div> -->
+    </div>
+
+
+    <br>
+    <!-- <div id="organizers" class="lead">
+        <h1>Organization <sup><a class="dropup" style="font-size:10px;" href="#top"><span class="caret"></span>
+            top</a></sup>
+        </h1>
+        <h2>Workshop Program Committee <sup><a class="dropup" style="font-size:10px;" href="#top"><span class="caret"></span>
+            top</a></sup>
+        </h2>
+        <ul>
+            <li>Alejandro Bellogin, Universidad Autonoma de Madrid</li>
+            <li>Ludovico Boratto, University of Cagliari</li>
+            <li>Dietmar Jannach, University of Klagenfurt</li>
+            <li>Julia Neidhardt, TU Wien</li>
+            <li>Antonela Tommasel, ISISTAN Research Institute, CONICET-UNCPBA</li>
+        </ul>
+        <br><br>
+    </div> -->
+    <!-- /.container -->
+    <!-- JavaScript -->
+    <script src="./js/jquery-1.11.3.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/ekko-lightbox.min.js"></script>
+    <script type="text/javascript">
+        $(document).delegate('*[data-toggle="lightbox"]', 'click', function (event) {
+            event.preventDefault();
+            $(this).ekkoLightbox();
+        });
+    </script>
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+        ga('create', 'UA-70716117-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</div>
+</body>
+</html>
