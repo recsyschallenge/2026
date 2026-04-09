@@ -201,9 +201,12 @@
             <td><strong>LLM-as-a-Judge</strong></td>
             <td>Quality of the generated explanation.</td>
             <td>
-                Blind-set responses are judged on two text-only dimensions:
+                Blind-set responses are judged by a <strong>Gemini</strong> model used as an automatic judge.
+                The judge evaluates two text-only dimensions:
                 <strong>Personalization</strong> and <strong>Explanation Quality</strong>.
                 These dimensions evaluate the written response independently from recommendation accuracy.
+                To preserve the integrity of the blind evaluation, we disclose the judge family but do not
+                publish the evaluation prompt.
             </td>
             <td>Blind-set response-quality evaluation.</td>
         </tr>
@@ -220,7 +223,9 @@
     <p align="justify">
         To ensure transparency and fairness, all dimensions used in the evaluation are disclosed publicly.
         While we do not publish the exact aggregation formula on the website, participants should note that
-        <strong>every listed dimension contributes to the final score</strong>.
+        <strong>every listed dimension contributes to the final score</strong>. For the response-quality
+        evaluation, we disclose that the automatic judge is based on <strong>Gemini</strong>, but we do not
+        publish the evaluation prompt.
     </p>
 
     <p align="justify">
