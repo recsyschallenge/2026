@@ -131,6 +131,96 @@
 
     <br>
 
+    <!-- EVALUATION -->
+    <h2 id="evaluation">
+        Evaluation
+        <sup>
+            <a class="dropup" style="font-size:10px;" href="#top">
+                <span class="caret"></span> top
+            </a>
+        </sup>
+    </h2>
+
+    <p align="justify">
+        The challenge employs a multi-dimensional evaluation framework to assess both what you recommend and
+        how you recommend it.
+    </p>
+
+    <p align="justify"><strong>Blind A, B Leaderboard Metric</strong></p>
+    <ul class="section-list">
+        <li>
+            <strong>Recommendation:</strong> Measured by nDCG@20. This evaluates the accuracy of the recommended items and serves as the primary anchor for the system's performance.
+        </li>
+        <li>
+            <strong>Catalog Diversity:</strong> Measures whether the 20 recommended items are varied and non-redundant, encouraging exploration across the music catalog.
+        </li>
+        <li>
+            <strong>Lexical Diversity:</strong> Measured using Distinct-2, defined as the proportion of unique bigrams in the generated responses, capturing the diversity of the language used.
+        </li>
+        <li>
+            <strong>LLM-as-a-Judge:</strong> The generated textual responses are evaluated using a large language model acting as an automatic judge. The judge scores two complementary dimensions:
+            <ul>
+                <li>
+                    <strong>Personalization:</strong> Measures whether the response is tailored to the user’s profile and dialogue context.
+                </li>
+                <li>
+                    <strong>Explanation Quality:</strong> Measures whether the response clearly and specifically explains why the recommended items fit the user’s request.
+                </li>
+            </ul>
+            The judge is explicitly instructed to evaluate these dimensions independently and to focus solely on the quality of the generated text, without considering recommendation accuracy, which is already captured by nDCG@20.
+        </li>
+    </ul>
+
+    <br>
+
+    <!-- DATASET -->
+    <h2 id="dataset">
+        DataSet: TalkPlayData-Challenge
+        <sup>
+            <a class="dropup" style="font-size:10px;" href="#top">
+                <span class="caret"></span> top
+            </a>
+        </sup>
+    </h2>
+
+    <p align="justify">
+        The challenge utilizes TalkPlayData-Challenge, a synthetic conversational music recommendation dataset featuring multi-turn dialogues and music listening history. The dataset is split into four subsets:
+        Train, Development, Blind A, and Blind B.
+    </p>
+
+    <p align="justify">
+        The leaderboard evaluation proceeds in stages across these subsets:
+    </p>
+    <ul class="section-list">
+        <li>
+            Development Phase: Evaluates the RecSys Task (SubTask A) only.
+        </li>
+        <li>
+            Blind A &amp; Blind B Phases: Evaluate both the RecSys Task (SubTask A) and Response Generation (SubTask B).
+        </li>
+    </ul>
+
+    <p align="justify"><strong>Dataset Components</strong></p>
+    <ul class="section-list">
+        <li>
+            <strong>Conversation Dataset</strong>: Includes multi-turn dialogues (avg. 8 turns) with fields for session_id, user_id, turn_number, and the utterance text.
+        </li>
+        <li>
+            <strong>Track Metadata</strong>: Contains information for over 1 million tracks, including track_id, track name, artist name, album name, tags (genre/mood), and release date.
+        </li>
+        <li>
+            <strong>User Profiles</strong>: Provides demographic and historical context, including user_id, age, gender, country, and a list of track_ids representing their listening history.
+        </li>
+        <li>
+            <strong>Pre-extracted Embeddings</strong>: To ensure focus on model architecture, we provide pre-computed multimodal track embeddings (audio/content) and user embeddings (collaborative filtering).
+        </li>
+    </ul>
+
+    <p><em>For further details, please refer to the  <a href="https://nlp4musa.github.io/music-crs-challenge/">
+        dedicated website</a>.</em>
+    </p>
+    <br>
+
     <!-- PRIZE -->
     <h2 id="prize">
         Prize
@@ -162,9 +252,12 @@
 
     <div class="wrapper">
         <strong>Registration &amp; Data Access</strong><br>
-        <div class="wrapper">
-            <strong>TBA</strong><br>
-        </div>
+        <a href="https://nlp4musa.github.io/music-crs-challenge/" target="_blank" rel="noopener">
+            <button type="button" class="btn btn-lg btn-primary button">Go to Registration Website</button>
+        </a>
+        <p class="register-footnote" style="margin-top:15px;">
+            Registration details are available on the linked website.
+        </p>
     </div>
 
     <br><br>
