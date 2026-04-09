@@ -30,18 +30,22 @@
         </span>
 
         <h3>
-            <a href="http://recsyschallenge.com/2026" style="text-decoration:none;">
+            <a href="https://www.recsyschallenge.com/2026/" style="text-decoration:none;">
                 RecSys Challenge 2026
             </a>
         </h3>
 
         <div style="margin-top:20px;font-family: Arial,sans-serif">
             <ul class="nav nav-pills navbar-nav navbar-left">
-                <li role="presentation"><a href="#about">About</a></li>
+                <!--                <li role="presentation"><a href="#about">About</a></li>-->
                 <li role="presentation"><a href="#task">Challenge Task</a></li>
+                <li role="presentation"><a href="#evaluation">Evaluation</a></li>
+<!--                <li role="presentation"><a href="#dataset">Dataset</a></li>-->
+<!--                <li role="presentation"><a href="#resources">Resources</a></li>-->
+<!--                <li role="presentation"><a href="#prize">Prize</a></li>-->
+                <li role="presentation"><a href="#participation">Participation</a></li>
                 <li role="presentation"><a href="#dates">Timeline</a></li>
                 <li role="presentation"><a href="#guidelines">Guidelines</a></li>
-                <li role="presentation"><a href="#prize">Participation</a></li>
 
                 <!--
                 Legacy / future menu entries kept commented:
@@ -142,40 +146,93 @@
     </h2>
 
     <p align="justify">
-        The challenge employs a multi-dimensional evaluation framework to assess both what you recommend and
-        how you recommend it.
+        The challenge employs a multi-dimensional evaluation framework to assess both what a system
+        recommends and how it communicates those recommendations. The final score combines multiple
+        dimensions, and <strong>each individual dimension contributes to the overall ranking</strong>.
+        Recommendation quality serves as the primary anchor of the evaluation, while diversity and
+        response-quality dimensions capture complementary aspects of system performance.
     </p>
 
-    <p align="justify"><strong>Blind A, B Leaderboard Metric</strong></p>
-    <ul class="section-list">
-        <li>
-            <strong>Recommendation:</strong> Measured by nDCG@20. This evaluates the accuracy of the recommended items and serves as the primary anchor for the system's performance.
-        </li>
-        <li>
-            <strong>Catalog Diversity:</strong> Measures whether the 20 recommended items are varied and non-redundant, encouraging exploration across the music catalog.
-        </li>
-        <li>
-            <strong>Lexical Diversity:</strong> Measured using Distinct-2, defined as the proportion of unique bigrams in the generated responses, capturing the diversity of the language used.
-        </li>
-        <li>
-            <strong>LLM-as-a-Judge:</strong> The generated textual responses are evaluated using a large language model acting as an automatic judge. The judge scores two complementary dimensions:
-            <ul>
-                <li>
-                    <strong>Personalization:</strong> Measures whether the response is tailored to the user’s profile and dialogue context.
-                </li>
-                <li>
-                    <strong>Explanation Quality:</strong> Measures whether the response clearly and specifically explains why the recommended items fit the user’s request.
-                </li>
-            </ul>
-            The judge is explicitly instructed to evaluate these dimensions independently and to focus solely on the quality of the generated text, without considering recommendation accuracy, which is already captured by nDCG@20.
-        </li>
-    </ul>
+    <p align="justify">
+        <strong>Development vs. blind evaluation.</strong>
+        The public evaluator supports transparent development-set evaluation. Blind A serves as an
+        interim leaderboard for the challenge, while <strong>Blind B is the final evaluation split</strong>.
+        Blind Dataset B will be released <strong>one week before the end of the challenge</strong>, and the
+        <strong>final leaderboard will be computed on Blind Dataset B</strong>.
+    </p>
+
+    <table class="table table-striped lead timeline-table">
+        <thead>
+        <tr>
+            <th>Dimension</th>
+            <th>What it measures</th>
+            <th>How it is computed</th>
+            <th>Role in evaluation</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>nDCG@20</strong></td>
+            <td>Ranking quality of the recommended tracks.</td>
+            <td>
+                Computed from the ranked list of predicted tracks against the ground-truth relevant item.
+                Higher-ranked correct recommendations receive more credit.
+            </td>
+            <td>Primary recommendation metric.</td>
+        </tr>
+        <tr>
+            <td><strong>Catalog Diversity</strong></td>
+            <td>How broadly a system covers the music catalog.</td>
+            <td>
+                Number of unique recommended tracks across all predictions divided by the total catalog size.
+            </td>
+            <td>Complementary diversity indicator.</td>
+        </tr>
+        <tr>
+            <td><strong>Lexical Diversity</strong></td>
+            <td>How varied the generated language is.</td>
+            <td>
+                Measured with <strong>Distinct-2</strong>, i.e., unique bigrams divided by total bigrams across
+                generated responses.
+            </td>
+            <td>Complementary response-generation indicator.</td>
+        </tr>
+        <tr>
+            <td><strong>LLM-as-a-Judge</strong></td>
+            <td>Quality of the generated explanation.</td>
+            <td>
+                Blind-set responses are judged on two text-only dimensions:
+                <strong>Personalization</strong> and <strong>Explanation Quality</strong>.
+                These dimensions evaluate the written response independently from recommendation accuracy.
+            </td>
+            <td>Blind-set response-quality evaluation.</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <p align="justify">
+        <strong>Aggregation policy.</strong>
+        For the public evaluator, retrieval metrics are computed for each session-turn prediction,
+        averaged within each turn, and then macro-averaged across turns. Diversity metrics are computed
+        globally over the full prediction file.
+    </p>
+
+    <p align="justify">
+        To ensure transparency and fairness, all dimensions used in the evaluation are disclosed publicly.
+        While we do not publish the exact aggregation formula on the website, participants should note that
+        <strong>every listed dimension contributes to the final score</strong>.
+    </p>
+
+    <p align="justify">
+        The public evaluator supports transparent development-set evaluation, while blind-set
+        scoring is performed on the official leaderboard infrastructure.
+    </p>
 
     <br>
 
     <!-- DATASET -->
     <h2 id="dataset">
-        DataSet: TalkPlayData-Challenge
+        Dataset: TalkPlayData-Challenge
         <sup>
             <a class="dropup" style="font-size:10px;" href="#top">
                 <span class="caret"></span> top
@@ -184,42 +241,163 @@
     </h2>
 
     <p align="justify">
-        The challenge utilizes TalkPlayData-Challenge, a synthetic conversational music recommendation dataset featuring multi-turn dialogues and music listening history. The dataset is split into four subsets:
-        Train, Development, Blind A, and Blind B.
+        The challenge utilizes TalkPlayData-Challenge, a synthetic conversational music recommendation
+        dataset featuring multi-turn dialogues and music listening history. The dataset is split into
+        four subsets: <strong>Train</strong>, <strong>Development</strong>, <strong>Blind A</strong>, and
+        <strong>Blind B</strong>.
     </p>
 
     <p align="justify">
-        The leaderboard evaluation proceeds in stages across these subsets:
+        The leaderboard evaluation proceeds in two blind stages. <strong>Blind A</strong> supports the
+        interim leaderboard during the main phase of the challenge. <strong>Blind B</strong> is the
+        final hidden evaluation set, released one week before the end of the challenge, and the
+        <strong>final leaderboard is based on Blind B</strong>.
     </p>
+
+    <p align="justify">
+        <strong>Dataset Components</strong>
+    </p>
+
     <ul class="section-list">
         <li>
-            Development Phase: Evaluates the RecSys Task (SubTask A) only.
+            <strong>Conversation Dataset:</strong> Includes multi-turn dialogues (avg. 8 turns) with fields
+            for session_id, user_id, turn_number, and the utterance text.
         </li>
         <li>
-            Blind A &amp; Blind B Phases: Evaluate both the RecSys Task (SubTask A) and Response Generation (SubTask B).
+            <strong>Track Metadata:</strong> Contains information for over 1 million tracks, including track_id,
+            track name, artist name, album name, tags (genre/mood), and release date.
+        </li>
+        <li>
+            <strong>User Profiles:</strong> Provides demographic and historical context, including user_id, age,
+            gender, country, and a list of track_ids representing listening history.
+        </li>
+        <li>
+            <strong>Pre-extracted Embeddings:</strong> To ensure focus on model architecture, we provide
+            pre-computed multimodal track embeddings (audio/content) and user embeddings
+            (collaborative filtering).
         </li>
     </ul>
 
-    <p align="justify"><strong>Dataset Components</strong></p>
-    <ul class="section-list">
-        <li>
-            <strong>Conversation Dataset</strong>: Includes multi-turn dialogues (avg. 8 turns) with fields for session_id, user_id, turn_number, and the utterance text.
-        </li>
-        <li>
-            <strong>Track Metadata</strong>: Contains information for over 1 million tracks, including track_id, track name, artist name, album name, tags (genre/mood), and release date.
-        </li>
-        <li>
-            <strong>User Profiles</strong>: Provides demographic and historical context, including user_id, age, gender, country, and a list of track_ids representing their listening history.
-        </li>
-        <li>
-            <strong>Pre-extracted Embeddings</strong>: To ensure focus on model architecture, we provide pre-computed multimodal track embeddings (audio/content) and user embeddings (collaborative filtering).
-        </li>
-    </ul>
-
-    <p><em>For further details, please refer to the  <a href="https://nlp4musa.github.io/music-crs-challenge/">
-        dedicated website</a>.</em>
+    <p><em>For further details, please refer to the
+        <a href="https://nlp4musa.github.io/music-crs-challenge/" target="_blank" rel="noopener">
+            dedicated website
+        </a>.</em>
     </p>
+
     <br>
+
+    <!-- USEFUL RESOURCES -->
+    <div id="resources" class="lead">
+        <h1>
+            Useful Resources
+            <sup>
+                <a class="dropup" style="font-size:10px;" href="#top">
+                    <span class="caret"></span> top
+                </a>
+            </sup>
+        </h1>
+    </div>
+
+    <p align="justify">
+        The following resources are provided to support participation in the challenge.
+    </p>
+
+    <h2>
+        Conversation Datasets
+        <sup>
+            <a class="dropup" style="font-size:10px;" href="#top">
+                <span class="caret"></span> top
+            </a>
+        </sup>
+    </h2>
+
+    <ul class="section-list">
+        <li>
+            <strong>Train / Development Dataset:</strong>
+            <a href="https://huggingface.co/datasets/talkpl-ai/TalkPlayData-Challenge-Dataset" target="_blank" rel="noopener">
+                TalkPlayData-Challenge-Dataset
+            </a>
+        </li>
+        <li>
+            <strong>Blind Dataset A:</strong>
+            <a href="https://huggingface.co/datasets/talkpl-ai/TalkPlayData-Challenge-Blind-A" target="_blank" rel="noopener">
+                TalkPlayData-Challenge-Blind-A
+            </a>
+        </li>
+        <li>
+            <strong>Blind Dataset B:</strong> Link will be published at release time.
+        </li>
+    </ul>
+
+    <h2>
+        Shared Recommendation Resources
+        <sup>
+            <a class="dropup" style="font-size:10px;" href="#top">
+                <span class="caret"></span> top
+            </a>
+        </sup>
+    </h2>
+
+    <p align="justify">
+        The following resources are shared across Train, Development, Blind A, and Blind B.
+    </p>
+
+    <ul class="section-list">
+        <li>
+            <strong>User Metadata:</strong>
+            <a href="https://huggingface.co/datasets/talkpl-ai/TalkPlayData-Challenge-User-Metadata" target="_blank" rel="noopener">
+                TalkPlayData-Challenge-User-Metadata
+            </a>
+        </li>
+        <li>
+            <strong>Track Metadata:</strong>
+            <a href="https://huggingface.co/datasets/talkpl-ai/TalkPlayData-Challenge-Track-Metadata" target="_blank" rel="noopener">
+                TalkPlayData-Challenge-Track-Metadata
+            </a>
+        </li>
+        <li>
+            <strong>User Embeddings:</strong>
+            <a href="https://huggingface.co/datasets/talkpl-ai/TalkPlayData-Challenge-User-Embeddings" target="_blank" rel="noopener">
+                TalkPlayData-Challenge-User-Embeddings
+            </a>
+        </li>
+        <li>
+            <strong>Track Embeddings:</strong>
+            <a href="https://huggingface.co/datasets/talkpl-ai/TalkPlayData-Challenge-Track-Embeddings" target="_blank" rel="noopener">
+                TalkPlayData-Challenge-Track-Embeddings
+            </a>
+        </li>
+    </ul>
+
+    <h2>
+        Code and Participation
+        <sup>
+            <a class="dropup" style="font-size:10px;" href="#top">
+                <span class="caret"></span> top
+            </a>
+        </sup>
+    </h2>
+
+    <ul class="section-list">
+        <li>
+            <strong>Registration Website:</strong>
+            <a href="https://nlp4musa.github.io/music-crs-challenge/" target="_blank" rel="noopener">
+                Music-CRS Challenge Website
+            </a>
+        </li>
+        <li>
+            <strong>Baseline Code:</strong>
+            <a href="https://github.com/nlp4musa/music-crs-baselines" target="_blank" rel="noopener">
+                music-crs-baselines
+            </a>
+        </li>
+        <li>
+            <strong>Evaluation Code:</strong>
+            <a href="https://github.com/nlp4musa/music-crs-evaluator" target="_blank" rel="noopener">
+                music-crs-evaluator
+            </a>
+        </li>
+    </ul>
 
     <!-- PRIZE -->
     <h2 id="prize">
@@ -287,30 +465,30 @@
             </tr>
             <tr>
                 <td>10 April, 2026</td>
-                <td>Dataset release (including Blind evaluation dataset A).</td>
+                <td>Dataset release (including Blind Dataset A).</td>
             </tr>
             <tr>
                 <td>15 April, 2026</td>
-                <td>Submission system and leaderboard go live. (Blind Dataset A)</td>
+                <td>Submission system and leaderboard go live (Blind Dataset A).</td>
             </tr>
             <tr>
-                <td>15 June, 2026</td>
-                <td>Blind evaluation dataset B release.</td>
-            </tr>
-            <tr>
-                <td>25 June, 2026</td>
-                <td>End of the challenge. Participants need to submit inference results of Blind Dataset B.</td>
-            </tr>
-            <tr>
-                <td>25 June, 2026</td>
-                <td>Final Leaderboard Released (Blind Dataset B).</td>
+                <td>23 June, 2026</td>
+                <td>Blind Dataset B release. Final evaluation phase opens.</td>
             </tr>
             <tr>
                 <td>30 June, 2026</td>
+                <td>End of the challenge. Participants must submit final predictions for Blind Dataset B.</td>
+            </tr>
+            <tr>
+                <td>6 July, 2026</td>
+                <td>Final leaderboard released based on Blind Dataset B.</td>
+            </tr>
+            <tr>
+                <td>6 July, 2026</td>
                 <td>Winners announcement. EasyChair opens for paper submissions.</td>
             </tr>
             <tr>
-                <td>7–12 July, 2026</td>
+                <td>12 July, 2026</td>
                 <td>Paper submission deadline.</td>
             </tr>
             <tr>
@@ -326,67 +504,94 @@
 
     <br>
 
+    <!-- GUIDELINES -->
     <div id="guidelines" class="lead">
         <h1>
-            Paper Submission Guidelines<sup><a class="dropup" style="font-size:10px;" href="#top"><span
-                class="caret"></span> top</a></sup>
+            Paper Submission Guidelines
+            <sup>
+                <a class="dropup" style="font-size:10px;" href="#top">
+                    <span class="caret"></span> top
+                </a>
+            </sup>
         </h1>
         <p>
-            <font color="green"><strong>Submission website:</strong></font><strong>TBA</strong>
+            <font color="green"><strong>Submission website:</strong></font> <strong>TBA</strong>
         </p>
         <ul>
-            <li>All participants of the challenge are invited to submit if they consider their submission particularly
+            <li>
+                All participants of the challenge are invited to submit if they consider their submission particularly
                 effective, novel, otherwise interesting, or exploiting identified particularities of the data.
             </li>
             <li>
                 <font color="green"><strong>Note:</strong></font> paper submission is mandatory if you want to be
-                eligible for a prize. Accepted papers are given a presentation slot at the
-                workshop. At least one author of each accepted paper must attend the workshop and present their work.
-                Please note that a badly written paper or absence of presence at workshop, may prevent you from being
-                eligible for the prize. Please contact the workshop organization if none of the authors will be able to
-                attend the workshop.
+                eligible for a prize. Accepted papers are given a presentation slot at the workshop.
+                At least one author of each accepted paper must attend the workshop and present their work.
+                Please note that a badly written paper or absence from the workshop may prevent you from being
+                eligible for the prize. Please contact the workshop organization if none of the authors will be able
+                to attend the workshop.
             </li>
             <li>
-                <font color="green"><strong>Page limit:</strong></font> 4 pages + 1 page for references (<a
-                    href="https://www.acm.org/publications/proceedings-template">ACM SIG Format</a>) in double column
-                format.
+                <font color="green"><strong>Page limit:</strong></font> 4 pages + 1 page for references
+                (<a href="https://www.acm.org/publications/proceedings-template" target="_blank" rel="noopener">ACM SIG Format</a>)
+                in double-column format.
                 Instructions for Word and LaTeX authors are given below:
                 <ul>
-                    <li><strong>Microsoft Word</strong>: Write your paper using
-                        <a href="https://www.acm.org/binaries/content/assets/publications/word_style/interim-template-style/interim-layout.docx" target="_blank" rel="noopener">ACM’s interim template</a>.
+                    <li>
+                        <strong>Microsoft Word</strong>: Write your paper using
+                        <a href="https://www.acm.org/binaries/content/assets/publications/word_style/interim-template-style/interim-layout.docx" target="_blank" rel="noopener">
+                            ACM’s interim template
+                        </a>.
                         Follow the embedded instructions to apply the paragraph styles to your various text elements.
                         The text is in double-column format and no additional formatting is required at this stage.
                     </li>
-                    <li><strong>LaTeX</strong>: Please use the latest version of the <a href="https://portalparts.acm.org/hippo/latex_templates/acmart-primary.zip" target="_blank" rel="noopener">Primary Article Template</a>
-                        – LaTeX to create your submission.Start the document with the
+                    <li>
+                        <strong>LaTeX</strong>: Please use the latest version of the
+                        <a href="https://portalparts.acm.org/hippo/latex_templates/acmart-primary.zip" target="_blank" rel="noopener">
+                            Primary Article Template
+                        </a>
+                        – LaTeX to create your submission. Start the document with the
                         <span style="font-family: monospace;">\documentclass[sigconf]{acmart}</span>
                         command to generate the output in a double-column format. Please see the
-                        <a href="https://portalparts.acm.org/hippo/latex_templates/acmart.pdf" target="_blank" rel="noopener">LaTeX documentation</a>
-                        and <a href="https://www.acm.org/publications/taps/latex-best-practices" target="_blank" rel="noopener">ACM’s LaTeX best practices guide</a>
+                        <a href="https://portalparts.acm.org/hippo/latex_templates/acmart.pdf" target="_blank" rel="noopener">
+                            LaTeX documentation
+                        </a>
+                        and
+                        <a href="https://www.acm.org/publications/taps/latex-best-practices" target="_blank" rel="noopener">
+                            ACM’s LaTeX best practices guide
+                        </a>
                         for further instructions, <strong>ignoring the single-column instructions</strong>.
                         Do not use the “manuscript” option, otherwise the document will not be compiled in double-column,
                         as required. Check the sample-sigconf.tex file included in the template package for a formatting example.
-                        To ensure 100% <strong>compatibility</strong> with The ACM Publishing System (TAPS), please <strong>restrict the use of packages</strong>
-                        to the <a href="https://www.acm.org/publications/taps/whitelist-of-latex-packages" target="_blank" rel="noopener">whitelist of approved LaTeX packages</a>.</li>
+                        To ensure 100% <strong>compatibility</strong> with The ACM Publishing System (TAPS), please
+                        <strong>restrict the use of packages</strong> to the
+                        <a href="https://www.acm.org/publications/taps/whitelist-of-latex-packages" target="_blank" rel="noopener">
+                            whitelist of approved LaTeX packages
+                        </a>.
+                    </li>
                 </ul>
             </li>
-            <li>Anonymization of submissions is not required; please include your team name in abstract and text, as
-                well as a link to your code repository, the achieved score, and a reference to the RecSys Challenge
-                Website (<a href="http://www.recsyschallenge.com/2026/">http://www.recsyschallenge.com/2026/</a>). Note:
-                This will be replaced with a reference to an overview paper in the RecSys proceedings for the
+            <li>
+                Anonymization of submissions is not required; please include your team name in the abstract and text,
+                as well as a link to your code repository, the achieved score, and a reference to the RecSys Challenge
+                Website
+                (<a href="https://www.recsyschallenge.com/2026/" target="_blank" rel="noopener">https://www.recsyschallenge.com/2026/</a>).
+                Note: this will be replaced with a reference to an overview paper in the RecSys proceedings for the
                 camera-ready version.
             </li>
             <li>
                 <font color="green"><strong>Submission website:</strong></font> <strong>TBA</strong>
             </li>
-            <li>The topics of interest include, but are not limited to:
+            <li>
+                The topics of interest include, but are not limited to:
                 <ul>
-                    <li>Development of novel algorithms for creating Universal Behavioral Profiles.</li>
-                    <li>Techniques for ensuring the generalization of user representations across both open and hidden predictive tasks.</li>
-                    <li>In-depth analysis and creative feature engineering of the provided event data (product interactions, page visits, searches, etc.).</li>
-                    <li>Methods for predicting user churn, as well as product and category propensity, based on user representations.</li>
-                    <li>Scalable and efficient approaches for generating user profiles from large-scale behavioral data.</li>
-                    <li>Innovative approaches to user representation that can be applied to a variety of downstream tasks.</li>
+                    <li>Conversational recommendation for music discovery.</li>
+                    <li>Multi-turn preference elicitation and dialogue-aware recommendation.</li>
+                    <li>Joint modeling of ranked retrieval and response generation.</li>
+                    <li>Personalization using user profiles, listening history, and conversational context.</li>
+                    <li>Methods for improving explanation quality in music recommendation dialogues.</li>
+                    <li>Diversity, novelty, and exploration in conversational music recommendation.</li>
+                    <li>Efficient and scalable architectures for large-scale music recommendation.</li>
+                    <li>Analysis of conversational recommendation behavior and failure cases.</li>
                 </ul>
             </li>
 
@@ -444,7 +649,6 @@
     </ul>
 
     <br>
-
 
     <!-- JavaScript -->
     <script src="./js/jquery-1.11.3.min.js"></script>
