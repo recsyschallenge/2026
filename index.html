@@ -40,12 +40,13 @@
                 <!--                <li role="presentation"><a href="#about">About</a></li>-->
                 <li role="presentation"><a href="#task">Challenge Task</a></li>
                 <li role="presentation"><a href="#evaluation">Evaluation</a></li>
-<!--                <li role="presentation"><a href="#dataset">Dataset</a></li>-->
-<!--                <li role="presentation"><a href="#resources">Resources</a></li>-->
-<!--                <li role="presentation"><a href="#prize">Prize</a></li>-->
+                <li role="presentation"><a href="#dataset">Dataset</a></li>
+                <li role="presentation"><a href="#resources">Resources</a></li>
+                <li role="presentation"><a href="#prize">Prize</a></li>
                 <li role="presentation"><a href="#participation">Participation</a></li>
                 <li role="presentation"><a href="#dates">Timeline</a></li>
-                <li role="presentation"><a href="#guidelines">Guidelines</a></li>
+                <li role="presentation"><a href="#guidelines">Paper Guidelines</a></li>
+                <li role="presentation"><a href="#terms">Terms</a></li>
 
                 <!--
                 Legacy / future menu entries kept commented:
@@ -90,7 +91,8 @@
         an advanced agentic pipeline, we invite the global research community to tackle the complexities of
         multi-turn preference elicitation. As a research community-driven initiative, the challenge dataset features
         LLM-generated multi-turn dialogues paired with music metadata and user-item interaction data derived from
-        publicly available research datasets. No SiriusXM or Deezer user data is included in the dataset.
+        publicly available research datasets. The dataset does not include proprietary or confidential data provided
+        directly by SiriusXM, Deezer, or any challenge sponsor.
         This challenge serves as a bridge between the NLP and RecSys communities, fostering next-generation
         innovation in interactive and personalized music information retrieval.
     </p>
@@ -133,6 +135,15 @@
         </li>
     </ul>
 
+    <p align="justify">
+        <strong>Candidate catalog rule.</strong>
+        During inference, recommender systems must retrieve candidates from the entire track catalog.
+        Participants must not filter, subset, or restrict tracks using <code>track_split_types</code> or
+        any other mechanism. For BM25/BERT baselines, the configuration must include
+        <code>track_split_types: ["all_tracks"]</code>; submissions that do not use
+        <code>all_tracks</code> may be considered invalid.
+    </p>
+
     <br>
 
     <!-- EVALUATION -->
@@ -147,24 +158,25 @@
 
     <p align="justify">
         The challenge employs a multi-dimensional evaluation framework to assess both what a system
-        recommends and how it communicates those recommendations. The final score combines multiple
-        dimensions, and <strong>each individual dimension contributes to the overall ranking</strong>.
-        Recommendation quality serves as the primary anchor of the evaluation, while diversity and
-        response-quality dimensions capture complementary aspects of system performance.
+        recommends and how it communicates those recommendations. The official composite score is:
+    </p>
+
+    <p align="center">
+        <strong>Score = 0.50 x nDCG@20 + 0.10 x Catalog Diversity + 0.10 x Lexical Diversity + 0.30 x LLM-as-a-Judge</strong>
     </p>
 
     <p align="justify">
         <strong>Development vs. blind evaluation.</strong>
-        The public evaluator supports transparent development-set evaluation. Blind A serves as an
-        interim leaderboard for the challenge, while <strong>Blind B is the final evaluation split</strong>.
-        Blind Dataset B will be released <strong>one week before the end of the challenge</strong>, and the
-        <strong>final leaderboard will be computed on Blind Dataset B</strong>.
+        The public evaluator supports transparent development-set evaluation. Blind A served as an
+        interim leaderboard phase, while <strong>Blind B is the official final evaluation split</strong>.
+        The final ranking is based on the Blind B leaderboard.
     </p>
 
     <table class="table table-striped lead timeline-table">
         <thead>
         <tr>
             <th>Dimension</th>
+            <th>Weight</th>
             <th>What it measures</th>
             <th>How it is computed</th>
             <th>Role in evaluation</th>
@@ -173,6 +185,7 @@
         <tbody>
         <tr>
             <td><strong>nDCG@20</strong></td>
+            <td>0.50</td>
             <td>Ranking quality of the recommended tracks.</td>
             <td>
                 Computed from the ranked list of predicted tracks against the ground-truth relevant item.
@@ -182,6 +195,7 @@
         </tr>
         <tr>
             <td><strong>Catalog Diversity</strong></td>
+            <td>0.10</td>
             <td>How broadly a system covers the music catalog.</td>
             <td>
                 Number of unique recommended tracks across all predictions divided by the total catalog size.
@@ -190,6 +204,7 @@
         </tr>
         <tr>
             <td><strong>Lexical Diversity</strong></td>
+            <td>0.10</td>
             <td>How varied the generated language is.</td>
             <td>
                 Measured with <strong>Distinct-2</strong>, i.e., unique bigrams divided by total bigrams across
@@ -199,6 +214,7 @@
         </tr>
         <tr>
             <td><strong>LLM-as-a-Judge</strong></td>
+            <td>0.30</td>
             <td>Quality of the generated explanation.</td>
             <td>
                 Blind-set responses are judged by a <strong>Gemini</strong> model used as an automatic judge.
@@ -215,22 +231,16 @@
 
     <p align="justify">
         <strong>Aggregation policy.</strong>
-        For the public evaluator, retrieval metrics are computed for each session-turn prediction,
-        averaged within each turn, and then macro-averaged across turns. Diversity metrics are computed
-        globally over the full prediction file.
+        Each conversation turn has exactly one ground-truth track. The evaluation reports nDCG@1,
+        nDCG@10, and nDCG@20, with <strong>nDCG@20</strong> as the primary retrieval metric.
+        Results are macro-averaged across sessions and turns. LLM judge scores use a 1-5 integer
+        scale and are normalized to [0, 1] before being weighted in the composite score.
     </p>
 
     <p align="justify">
-        To ensure transparency and fairness, all dimensions used in the evaluation are disclosed publicly.
-        While we do not publish the exact aggregation formula on the website, participants should note that
-        <strong>every listed dimension contributes to the final score</strong>. For the response-quality
-        evaluation, we disclose that the automatic judge is based on <strong>Gemini</strong>, but we do not
-        publish the evaluation prompt.
-    </p>
-
-    <p align="justify">
-        The public evaluator supports transparent development-set evaluation, while blind-set
-        scoring is performed on the official leaderboard infrastructure.
+        To preserve the integrity of the blind evaluation, the judge family is disclosed, but the
+        detailed evaluation prompt is not published. Blind-set scoring is performed on the official
+        Codabench leaderboard infrastructure.
     </p>
 
     <br>
@@ -246,17 +256,18 @@
     </h2>
 
     <p align="justify">
-        The challenge utilizes TalkPlayData-Challenge, a synthetic conversational music recommendation
-        dataset featuring multi-turn dialogues and music listening history. The dataset is split into
-        four subsets: <strong>Train</strong>, <strong>Development</strong>, <strong>Blind A</strong>, and
-        <strong>Blind B</strong>.
+        The challenge uses <strong>TalkPlayData-Challenge</strong>, a large-scale multi-turn dialogue
+        dataset for conversational music recommendation, with pre-extracted multimodal track and user
+        embeddings provided. It is based on the publicly available TalkPlayData dataset and was prepared
+        for this research challenge by members of the organizing committee affiliated with KAIST.
     </p>
 
     <p align="justify">
-        The leaderboard evaluation proceeds in two blind stages. <strong>Blind A</strong> supports the
+        The leaderboard evaluation proceeds in two blind stages. <strong>Blind A</strong> supported the
         interim leaderboard during the main phase of the challenge. <strong>Blind B</strong> is the
-        final hidden evaluation set, released one week before the end of the challenge, and the
-        <strong>final leaderboard is based on Blind B</strong>.
+        final hidden evaluation set and the <strong>final leaderboard is based on Blind B</strong>.
+        The dataset is released under <strong>CC BY-NC 4.0</strong> for non-commercial research use only;
+        redistribution outside the scope of the challenge is not permitted.
     </p>
 
     <p align="justify">
@@ -265,16 +276,16 @@
 
     <ul class="section-list">
         <li>
-            <strong>Conversation Dataset:</strong> Includes multi-turn dialogues (avg. 8 turns) with fields
-            for session_id, user_id, turn_number, and the utterance text.
+            <strong>Conversation Datasets:</strong> Include multi-turn dialogue instances for each
+            <code>session_id</code> and <code>turn_number</code> pair in the corresponding split.
         </li>
         <li>
-            <strong>Track Metadata:</strong> Contains information for over 1 million tracks, including track_id,
-            track name, artist name, album name, tags (genre/mood), and release date.
+            <strong>Track Metadata:</strong> Provides the official catalog and valid track identifiers
+            for recommendation outputs.
         </li>
         <li>
-            <strong>User Profiles:</strong> Provides demographic and historical context, including user_id, age,
-            gender, country, and a list of track_ids representing listening history.
+            <strong>User Metadata:</strong> Provides user-side context where available. Blind B includes
+            cold-start cases where user IDs and profiles are not provided.
         </li>
         <li>
             <strong>Pre-extracted Embeddings:</strong> To ensure focus on model architecture, we provide
@@ -330,7 +341,10 @@
             </a>
         </li>
         <li>
-            <strong>Blind Dataset B:</strong> Link will be published at release time.
+            <strong>Blind Dataset B:</strong>
+            <a href="https://huggingface.co/datasets/talkpl-ai/TalkPlayData-Challenge-Blind-B" target="_blank" rel="noopener">
+                TalkPlayData-Challenge-Blind-B
+            </a>
         </li>
     </ul>
 
@@ -385,6 +399,12 @@
 
     <ul class="section-list">
         <li>
+            <strong>Official Codabench Competition:</strong>
+            <a href="https://www.codabench.org/competitions/15786/" target="_blank" rel="noopener">
+                RecSys Challenge 2026: Conversational Music Recommendation
+            </a>
+        </li>
+        <li>
             <strong>Registration Website:</strong>
             <a href="https://nlp4musa.github.io/music-crs-challenge/" target="_blank" rel="noopener">
                 Music-CRS Challenge Website
@@ -414,10 +434,20 @@
         </sup>
     </h2>
 
+    <p align="justify">
+        The total prize pool is <strong>$2,000 USD</strong>, funded by external sponsors including
+        SiriusXM and Deezer. Sponsors provide financial support only and do not control or influence
+        the dataset, evaluation methodology, rankings, or outcomes of the challenge.
+    </p>
+
     <ul class="section-list">
-        <li>First team from the participants - $1000</li>
-        <li>First academic team - $1000</li>
+        <li><strong>Academic Track - 1st Place:</strong> $1,000</li>
+        <li><strong>Industry Track - 1st Place:</strong> $1,000</li>
     </ul>
+
+    <p align="justify">
+        Winners are responsible for any applicable taxes in their jurisdiction.
+    </p>
 
     <br><br>
 
@@ -436,12 +466,84 @@
     <div class="wrapper">
         <strong>Registration &amp; Data Access</strong><br>
         <a href="https://nlp4musa.github.io/music-crs-challenge/" target="_blank" rel="noopener">
-            <button type="button" class="btn btn-lg btn-primary button">Go to Registration Website</button>
+            <button type="button" class="btn btn-lg btn-primary button">Go to Challenge Website</button>
         </a>
         <p class="register-footnote" style="margin-top:15px;">
-            Registration details are available on the linked website.
+            Registration details and participation resources are available on the linked website.
         </p>
     </div>
+
+    <h2>
+        Registration and Teams
+        <sup>
+            <a class="dropup" style="font-size:10px;" href="#top">
+                <span class="caret"></span> top
+            </a>
+        </sup>
+    </h2>
+
+    <ul class="section-list">
+        <li>One account is allowed per participant. Multiple accounts may result in disqualification.</li>
+        <li>Each team must register a single account and submit from that account only.</li>
+        <li>The maximum team size is <strong>10 members</strong>.</li>
+        <li>Team mergers must be reported to the organizers before the challenge ends.</li>
+        <li>
+            Phase B requires frozen team membership. Solo participants must register as a one-person team.
+            Team registration is available through the official
+            <a href="https://forms.gle/bMG5UrE3WCyc7js39" target="_blank" rel="noopener">team registration form</a>.
+        </li>
+    </ul>
+
+    <h2>
+        Participation Tracks
+        <sup>
+            <a class="dropup" style="font-size:10px;" href="#top">
+                <span class="caret"></span> top
+            </a>
+        </sup>
+    </h2>
+
+    <ul class="section-list">
+        <li>
+            <strong>Academic Track:</strong> at least 50% of team members are currently enrolled
+            students or academic staff.
+        </li>
+        <li>
+            <strong>Industry Track:</strong> all other teams.
+        </li>
+        <li>Tracks are ranked separately based on the final <strong>Blind B</strong> leaderboard.</li>
+    </ul>
+
+    <h2>
+        Submission Format and Limits
+        <sup>
+            <a class="dropup" style="font-size:10px;" href="#top">
+                <span class="caret"></span> top
+            </a>
+        </sup>
+    </h2>
+
+    <ul class="section-list">
+        <li>
+            Submissions must be uploaded as <code>submission.zip</code> and must contain a file named
+            exactly <code>prediction.json</code>. Any other filename will fail scoring.
+        </li>
+        <li>
+            <code>prediction.json</code> must provide predictions for every
+            <code>(session_id, turn_number)</code> pair in the evaluation set.
+        </li>
+        <li>
+            Each prediction must include an ordered list of up to <strong>20</strong> unique valid track IDs
+            and a <code>predicted_response</code> string.
+        </li>
+        <li><strong>Blind A:</strong> 10 submissions per day, 500 submissions total.</li>
+        <li><strong>Blind B:</strong> 3 submissions total; this is the final phase.</li>
+        <li>
+            Participants must manually select which Blind B submission should be considered for the final
+            leaderboard evaluation.
+        </li>
+        <li>Top-ranked teams may be required to upload code for verification of results.</li>
+    </ul>
 
     <br><br>
 
@@ -456,6 +558,11 @@
             </sup>
         </h1>
 
+        <p align="justify">
+            The dates below follow the official Codabench Timeline page. Dates may change; participants should
+            refer to Codabench for the latest schedule.
+        </p>
+
         <table class="table table-striped lead timeline-table">
             <thead>
             <tr>
@@ -465,24 +572,24 @@
             </thead>
             <tbody>
             <tr class="timeline-past">
-                <td>4 April, 2026</td>
+                <td>31 March, 2026</td>
                 <td>Website published.</td>
             </tr>
             <tr>
                 <td>10 April, 2026</td>
-                <td>Dataset release (including Blind Dataset A).</td>
+                <td>Start of the RecSys Challenge; Train, Development, and Blind A datasets released.</td>
             </tr>
             <tr>
-                <td>15 April, 2026</td>
-                <td>Submission system and leaderboard go live (Blind Dataset A).</td>
+                <td>17 April, 2026</td>
+                <td>Submission system opens; leaderboard live for Blind A.</td>
             </tr>
             <tr>
                 <td>23 June, 2026</td>
-                <td>Blind Dataset B release. Final evaluation phase opens.</td>
+                <td>Blind Dataset B released; Blind B final phase opens.</td>
             </tr>
             <tr>
                 <td>30 June, 2026</td>
-                <td>End of the challenge. Participants must submit final predictions for Blind Dataset B.</td>
+                <td>End of the RecSys Challenge.</td>
             </tr>
             <tr>
                 <td>10 July, 2026 <s>6 July, 2026</s></td>
@@ -495,6 +602,14 @@
             <tr>
                 <td>22 July, 2026 <s>12 July, 2026</s></td>
                 <td>Paper submission deadline.</td>
+            </tr>
+            <tr>
+                <td>3 August, 2026</td>
+                <td>Paper acceptance notifications.</td>
+            </tr>
+            <tr>
+                <td>10 August, 2026</td>
+                <td>Camera-ready papers due.</td>
             </tr>
             <tr>
                 <td>September 2026</td>
@@ -520,7 +635,13 @@
             </sup>
         </h1>
         <p>
-            <font color="green"><strong>Submission website:</strong></font> <strong>TBA</strong>
+            <font color="green"><strong>Submission website:</strong></font> EasyChair link <strong>TBA</strong>
+        </p>
+        <p>
+            <font color="green"><strong>Important dates:</strong></font>
+            Paper submission deadline: <strong>20 July 2026</strong>;
+            acceptance notifications: <strong>3 August 2026</strong>;
+            camera-ready deadline: <strong>10 August 2026</strong>.
         </p>
         <ul>
             <li>
@@ -586,7 +707,7 @@
                 camera-ready version.
             </li>
             <li>
-                <font color="green"><strong>Submission website:</strong></font> <strong>TBA</strong>
+                <font color="green"><strong>Submission website:</strong></font> EasyChair link <strong>TBA</strong>
             </li>
             <li>
                 The topics of interest include, but are not limited to:
@@ -624,6 +745,55 @@
             </li>
         </ul>
     </div>
+
+    <!-- TERMS -->
+    <div id="terms" class="lead">
+        <h1>
+            Terms &amp; Conditions
+            <sup>
+                <a class="dropup" style="font-size:10px;" href="#top">
+                    <span class="caret"></span> top
+                </a>
+            </sup>
+        </h1>
+    </div>
+
+    <p align="justify">
+        These terms summarize the official Codabench Terms &amp; Conditions for the Music-CRS Challenge 2026.
+        By registering, participants agree to comply with the official rules.
+    </p>
+
+    <ul class="section-list">
+        <li>
+            The challenge is open to researchers, students, and practitioners, except those directly involved
+            in organizing the challenge.
+        </li>
+        <li>
+            Participants are responsible for ensuring that their participation does not violate agreements
+            with employers or institutions and must comply with applicable laws and regulations.
+        </li>
+        <li>
+            Participants are expected to act in good faith. Cheating, plagiarism, prompt injection, output
+            contamination, attempts to manipulate the evaluation process, duplicate accounts, or multi-team
+            participation may result in deletion of submissions or disqualification.
+        </li>
+        <li>
+            Code and data must not be shared outside the team unless they are openly shared with all
+            participants through official channels.
+        </li>
+        <li>
+            Registration information is collected only for challenge administration. Participants may use a
+            pseudonym on public leaderboards, but winners must provide their real identity to receive prizes.
+        </li>
+        <li>
+            The dataset and challenge are provided "as is" without warranties of any kind. Participation is
+            voluntary and at the participant's own risk.
+        </li>
+        <li>
+            The organizers may update the guidelines as necessary and may modify, postpone, or cancel the
+            challenge if unforeseen circumstances arise.
+        </li>
+    </ul>
 
     <!-- ORGANIZATION -->
     <div id="organizers" class="lead">
