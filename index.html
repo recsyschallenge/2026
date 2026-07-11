@@ -41,9 +41,10 @@
                 <li role="presentation"><a href="#task">Challenge Task</a></li>
                 <li role="presentation"><a href="#evaluation">Evaluation</a></li>
                 <li role="presentation"><a href="#dataset">Dataset</a></li>
-                <li role="presentation"><a href="#resources">Resources</a></li>
+                <!-- <li role="presentation"><a href="#resources">Resources</a></li> -->
                 <li role="presentation"><a href="#prize">Prize</a></li>
-                <li role="presentation"><a href="#participation">Participation</a></li>
+                <li role="presentation"><a href="#winners">Winners</a></li>
+                <!-- <li role="presentation"><a href="#participation">Participation</a></li> -->
                 <li role="presentation"><a href="#dates">Timeline</a></li>
                 <li role="presentation"><a href="#guidelines">Paper Guidelines</a></li>
                 <li role="presentation"><a href="#terms">Terms</a></li>
@@ -302,7 +303,7 @@
 
     <br>
 
-    <!-- USEFUL RESOURCES -->
+    <!-- USEFUL RESOURCES (temporarily hidden)
     <div id="resources" class="lead">
         <h1>
             Useful Resources
@@ -424,6 +425,8 @@
         </li>
     </ul>
 
+    -->
+
     <!-- PRIZE -->
     <h2 id="prize">
         Prize
@@ -451,7 +454,80 @@
 
     <br><br>
 
-    <!-- PARTICIPATION -->
+    <!-- WINNERS -->
+    <div id="winners" class="lead">
+        <h1>
+            Winners
+            <sup>
+                <a class="dropup" style="font-size:10px;" href="#top">
+                    <span class="caret"></span> top
+                </a>
+            </sup>
+        </h1>
+    </div>
+
+    <section class="final-results" aria-labelledby="leaderboard-title">
+        <div class="leaderboard-heading">
+            <div>
+                <h2 id="leaderboard-title">Blind-Dataset-B (Final Leaderboard)</h2>
+                <p id="leaderboard-summary" class="leaderboard-summary" aria-live="polite">
+                    All &middot; 40 teams &middot; Composite Score, descending
+                </p>
+            </div>
+            <span class="final-badge">Final</span>
+        </div>
+
+        <div class="results-track-tabs" role="tablist" aria-label="Leaderboard track">
+            <button class="results-track-tab active" type="button" role="tab" aria-selected="true"
+                    data-results-track="all">All</button>
+            <button class="results-track-tab" type="button" role="tab" aria-selected="false"
+                    data-results-track="academic">Academic</button>
+            <button class="results-track-tab" type="button" role="tab" aria-selected="false"
+                    data-results-track="industry">Industry</button>
+        </div>
+
+        <p class="score-formula">
+            Composite Score = 0.50 &times; nDCG@20 + 0.10 &times; Catalog Diversity +
+            0.10 &times; Lexical Diversity + 0.30 &times; LLM-as-a-Judge.
+            LLM-as-a-Judge scores are normalized before aggregation.
+        </p>
+
+        <div class="leaderboard-table-wrap" tabindex="0" role="region"
+             aria-label="Blind-Dataset-B final results table">
+            <table class="table table-striped final-leaderboard">
+                <thead>
+                <tr>
+                    <th scope="col" class="rank-column">#</th>
+                    <th scope="col">Team ID</th>
+                    <th scope="col">Type</th>
+                    <th scope="col" class="numeric-column">Composite<br>Score</th>
+                    <th scope="col" class="numeric-column">nDCG@20</th>
+                    <th scope="col" class="numeric-column">Catalog<br>Diversity</th>
+                    <th scope="col" class="numeric-column">Lexical<br>Diversity</th>
+                    <th scope="col" class="numeric-column">LLM-as-a-<br>Judge</th>
+                    <th scope="col" class="code-column">Code</th>
+                </tr>
+                </thead>
+                <tbody id="final-leaderboard-body">
+                <tr>
+                    <td colspan="9" class="leaderboard-loading">Loading leaderboard...</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p class="leaderboard-scroll-hint">Scroll horizontally to see all metrics on smaller screens.</p>
+        <p class="leaderboard-note">
+            <span class="verification-key">*</span> Additional verification is currently in progress.
+            Source:
+            <a href="https://nlp4musa.github.io/music-crs-challenge/results.html"
+               target="_blank" rel="noopener">official Music-CRS Challenge results</a>.
+        </p>
+    </section>
+
+    <br><br>
+
+    <!-- PARTICIPATION (temporarily hidden)
     <div id="participation" class="lead">
         <h1>
             Participation
@@ -546,6 +622,8 @@
     </ul>
 
     <br><br>
+
+    -->
 
     <!-- TIMELINE -->
     <div id="dates">
@@ -855,6 +933,7 @@
     <script src="./js/jquery-1.11.3.min.js"></script>
     <script src="./js/bootstrap.min.js"></script>
     <script src="./js/ekko-lightbox.min.js"></script>
+    <script src="./js/leaderboard.js"></script>
     <script type="text/javascript">
         $(document).delegate('*[data-toggle="lightbox"]', 'click', function (event) {
             event.preventDefault();
